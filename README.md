@@ -17,8 +17,8 @@ Improve health, and learn the mindset, do not endlessly tweak the tools.
   - This eases maintenance when edge-cases emerge.
 
 - Git
-  - Ensure the `main` branch is always usable and stable.
-  - Have an experimental branch to test out new settings & packages.
+  - The `main` branch is for daily use and acts as an experimental branch to test out new settings & packages.
+  - The `work` branch stays always usable and stable. So when `main` breaks, Emacs can still be properly loaded from `work`.
 
 ## News
-2026-05-25: The old ~main~ history has been preserved in the `main-archived_1` to allow the new configuration.
+2026-05-25: The old `main` history has been preserved in the `main-archived_1` to allow the new configuration.
