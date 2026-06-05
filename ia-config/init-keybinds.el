@@ -1,6 +1,11 @@
 ;;;; init-keybinds.el --- All custom keybinds -*- lexical-binding: t -*-
 
+;;; Commentary:
+;; 
+
 (require 'init-common)
+
+;;; Code:
 
 (ia/feat-chunk ia-setup/window-management-keymap t
   (with-eval-after-load 'window
@@ -66,5 +71,23 @@
     (keymap-set global-map "C-h T" 'help-with-tutorial)
     (keymap-set global-map "C-h t" 'gt-translate)))
 
+(ia/feat-chunk ia-setup/ia/mark-things-at-point-keymap t
+  (with-eval-after-load 'init-common
+    (keymap-set global-map "C->" 'ia/mark-things-at-point)))
+
+(ia/feat-chunk ia-setup/outline-mode t
+  "Set up custom key bindings for outline minor mode using a new prefix."
+  ;; Setting this variable doens’t work if `outline' has been loaded
+  ;; so the following workaround is needed.
+  ;; (setq outline-minor-mode-prefix "") 
+  (with-eval-after-load 'outline
+    (keymap-set outline-minor-mode-map "C-c" outline-mode-prefix-map)
+    (keymap-set outline-mode-prefix-map "C-<tab>" 'outline-cycle)
+    (keymap-unset outline-mode-prefix-map "TAB" 'outline-show-children)
+    (keymap-set outline-mode-prefix-map "<tab>" 'outline-cycle-buffer)
+    (with-eval-after-load 'consult
+      (keymap-set outline-mode-prefix-map "C-g" 'consult-outline))))
+
+
 (provide 'init-keybinds)
-;; init-keybinds.el ends here
+;;; init-keybinds.el ends here

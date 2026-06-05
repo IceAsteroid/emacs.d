@@ -1,8 +1,13 @@
-;;;; init-basic.el --- Basic configuration for built-in features.
+;;;; init-basic.el --- Basic configuration for built-in features.  -*- lexical-binding: t; -*-
+
+;;; Commentary:
+;; 
 
 (require 'init-common)
 
-;;; Appearance
+;;; Code:
+
+;;;; Appearance
 (setq inhibit-splash-screen t)
 (tool-bar-mode -1)
 (menu-bar-mode -1)

@@ -14,10 +14,12 @@
     (setq corfu-auto-delay 0.1)
     (setq corfu-auto nil)
     ;; (corfu-popupinfo-mode +1)
+    (corfu-echo-mode +1)
+    (corfu-history-mode +1)
     (global-corfu-mode +1)))
 
-
 (setq eldoc-documentation-strategy #'eldoc-documentation-compose)
+
 
 (provide 'init-completion-at-point)
 

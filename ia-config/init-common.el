@@ -9,7 +9,7 @@
 
 ;;; Code:
 
-;;; Frequent used in configuration
+;;;; Frequent used in configuration
 (defmacro ia/feat-chunk (name enable-p &rest body)
   "A wrapper to group related config by NAME. Executes BODY if ENABLED-P is non-nil"
   (declare (indent 2))
@@ -29,7 +29,7 @@ Check ARG, FORCE and FOLLOW-SYMLINKS arguments in the docstring of `byte-recompi
       ;; Return for the caller.
       default-directory)))
 
-;;; Window Management
+;;;; Window Management
 (defvar ia/other-window-mru-args '(nil 'dedicated 'not-selected 'no-other)
   "A list of arguments in the order that are passed to `get-mru-window' in `ia/other-window-mru'.")
 (defun ia/other-window-mru ()
@@ -45,7 +45,7 @@ Check ARG, FORCE and FOLLOW-SYMLINKS arguments in the docstring of `byte-recompi
     ;; Always return nil
     nil))
 
-;;; Buffer
+;;;; Buffer
 (defun ia/count-total-lines ()
   "Like `count-lines-page', but count for all lines(logically) in a buffer."
   (interactive)
@@ -59,7 +59,7 @@ Check ARG, FORCE and FOLLOW-SYMLINKS arguments in the docstring of `byte-recompi
                          total)
                total before after))))
 
-;;; Org-mode
+;;;; Org-mode
 
 ;; Consider taking this code to its own repo or in my emacs-util repo.
 ;; Deploy functions to hide/show contexts of items in org-mode
@@ -141,6 +141,35 @@ item lines(unfolded), otherwise to all item lines."
       (setq-local ia/variable-pitch-mode t)
     (setq-local ia/variable-pitch-mode nil)))
 (add-hook 'buffer-face-mode-hook 'ia/variable-pitch-mode-p)
+
+(defun ia/mark-things-at-point ()
+  "Mark symbol at point.
+If repeated, expand to sexp, then list, then line, then defun."
+  (interactive)
+  (if (and (eq last-command this-command) (use-region-p))
+      ;; -- EXPANSION PHASE --
+      ;; Define a hierarchy of things to expand into
+      (let ((hierarchy '(sexp list line defun buffer))
+            (rb (region-beginning))
+            (re (region-end))
+            (expanded nil))
+        (dolist (thing hierarchy)
+          (unless expanded
+            (let ((bounds (bounds-of-thing-at-point thing)))
+              ;; Check if the new bounds are actually larger than current region
+              (when (and bounds
+                         (or (< (car bounds) rb)
+                             (> (cdr bounds) re)))
+                (goto-char (car bounds))
+                (set-mark (cdr bounds))
+                (setq expanded t)
+                (message "Expanded to %s" thing))))))
+    ;; -- INITIAL PHASE --
+    ;; Just mark the symbol
+    (when-let ((b (bounds-of-thing-at-point 'symbol)))
+      (goto-char (car b))
+      (set-mark (cdr b))
+      (message "Marked symbol"))))
 
 
 (provide 'init-common)

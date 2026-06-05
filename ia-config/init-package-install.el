@@ -1,11 +1,18 @@
 ;;;; init-package-install.el --- Install & Initialize packages -*- lexical-binding: t -*-
 
+;;; Commentary:
+;; 
+
 (require 'package)
+
+;;; Code:
+
 (add-to-list 'package-archives '("melpa-stable" . "https://stable.melpa.org/packages/"))
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
 (package-initialize)
 
 (defun ia/package-install (pkg)
+  "Install PKG if not installed, and load the package immediately."
   (unless (package-installed-p pkg)
     (package-install pkg))
   (require pkg))
@@ -33,6 +40,7 @@
 (ia/package-install 'denote)
 (ia/package-install 'denote-silo)
 (ia/package-install 'consult-notes)
+(ia/package-install 'org-superstar)
 
 ;;; Linguistics & Translation
 (ia/package-install 'gt)
