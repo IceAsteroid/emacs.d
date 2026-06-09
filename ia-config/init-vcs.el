@@ -7,6 +7,11 @@
   (with-eval-after-load 'magit
     (magit-wip-mode +1)))
 
+(ia/feat-chunk ia-setup/diff-hl
+    (with-eval-after-load 'diff-hl
+      (global-diff-hl-mode +1)))
+
+
 (provide 'init-vcs)
 
 ;;; init-vcs.el ends here

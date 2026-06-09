@@ -1,4 +1,4 @@
-;;;; init-org.el --- Org-mode related configuration.  -*- lexical-binding: t; -*-
+;;; init-org.el --- Org-mode related configuration.  -*- lexical-binding: t; -*-
 
 
 ;;; Commentary:
@@ -38,7 +38,8 @@
     (setq org-startup-folded 'fold)
     (setq org-hide-block-startup t)
     (setq org-hide-emphasis-markers t)
-    (setq org-ellipsis "…")))
+    (setq org-ellipsis "…")
+    (setq org-hierarchical-todo-statistics nil)))
 
 (ia/feat-chunk ia-setup/org-superstar t
   (with-eval-after-load 'org-superstar

@@ -18,6 +18,11 @@
     (corfu-history-mode +1)
     (global-corfu-mode +1)))
 
+(ia/feat-chunk ia-setup/kind-icon t
+  (with-eval-after-load 'kind-icon
+    (setq kind-icon-use-icons nil)
+    (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter)))
+
 (setq eldoc-documentation-strategy #'eldoc-documentation-compose)
 
 

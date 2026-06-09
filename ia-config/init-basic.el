@@ -1,4 +1,4 @@
-;;;; init-basic.el --- Basic configuration for built-in features.  -*- lexical-binding: t; -*-
+;;; init-basic.el --- Basic configuration for built-in features.  -*- lexical-binding: t; -*-
 
 ;;; Commentary:
 ;; 
@@ -24,7 +24,10 @@
 (setq blink-cursor-blinks -1)
 (setq use-file-dialog nil)
 
-;;; File saving and tracking
+;;;; History
+(savehist-mode +1)
+
+;;;; File saving and tracking
 (save-place-mode 1)
 (recentf-mode 1)
 (global-auto-revert-mode 1)
@@ -38,7 +41,10 @@
       kept-old-versions 2   ;keep N versions of original file undeleted
       )
 
+;;;; Completion
+(setq completion-ignored-extensions nil) ;do not hide files in completion.
 
+;;;; Keybindings
 (keymap-unset global-map "C-x C-z" 'suspend-frame)
 (keymap-global-unset "C-z" 'suspend-frame)
 

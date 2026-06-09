@@ -1,4 +1,4 @@
-;;;; init-package-install.el --- Install & Initialize packages -*- lexical-binding: t -*-
+;;; init-package-install.el --- Install & Initialize packages -*- lexical-binding: t -*-
 
 ;;; Commentary:
 ;; 
@@ -9,42 +9,53 @@
 
 (add-to-list 'package-archives '("melpa-stable" . "https://stable.melpa.org/packages/"))
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
-(package-initialize)
+(package-initialize t)
 
 (defun ia/package-install (pkg)
   "Install PKG if not installed, and load the package immediately."
   (unless (package-installed-p pkg)
+    ;; Refresh archives if empty for fresh install, to prevent package not found.
+    (unless package-archive-contents
+      (package-refresh-contents))
     (package-install pkg))
   (require pkg))
 
-;;; Performance
+;;;; Performance
 (ia/package-install 'gcmh)
 
-;;; Completion
+;;;; Themes
+(add-to-list 'package-pinned-packages '(ef-themes . "gnu"))
+(ia/package-install 'ef-themes)
+
+;;;; Completion
 (ia/package-install 'vertico)
 (ia/package-install 'marginalia)
 (ia/package-install 'orderless)
 (ia/package-install 'consult)
 
-;;; Programming
+;;;; Programming
 (ia/package-install 'corfu)
+(ia/package-install 'kind-icon)
 
-;;; Contextual hinting
+;;;; Contextual hinting
 (ia/package-install 'embark)
 (ia/package-install 'embark-consult)
 
-;;; Git
+;;;; Git
 (ia/package-install 'magit)
+(ia/package-install 'diff-hl)
 
-;;; Org-mode
+;;;; Org-mode
 (ia/package-install 'denote)
 (ia/package-install 'denote-silo)
 (ia/package-install 'consult-notes)
 (ia/package-install 'org-superstar)
 
-;;; Linguistics & Translation
+;;;; Linguistics & Translation
 (ia/package-install 'gt)
 
+;;;; Documentation enhancement
+(ia/package-install 'helpful)
 
 (provide 'init-package-install)
 ;;; init-package-install.el ends here

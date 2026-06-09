@@ -1,12 +1,18 @@
-;;;; init-package-local-load.el --- Load & configure local packages -*- lexical-binding: t -*-
+;;; init-package-local-load.el --- Load & configure local packages -*- lexical-binding: t -*-
+
+
+;;; Commentary:
+;;
 
 (require 'init-common)
+
+;;; Code:
 
 (setq ia/local-packages-dir "~/Repos_Mine/Online/Emacs_Packages")
 
 ;; `toggle-edit' needs to be revised & compared with its ancestor versions.
 (use-package toggle-edit
-  :load-path (lambda () (ia/load-dir-recursive "toggle-edit" nil t))
+  :load-path (lambda () (ia/load-dir-recursive "toggle-edit-git" nil t))
   :config
   (toggle-edit-mode +1))
 
@@ -57,6 +63,12 @@
       (remove-hook 'my-mixed-pitch-mode-hook 'my/setup-buffer-face-in-org-subentry t)))
   (add-hook 'org-subentry-count-mode-hook 'my/setup-in-org-subentry-count-mode)
   (add-hook 'org-mode-hook 'org-subentry-count-mode))
+
+;;;; Modified themes
+;;load the theme directory once without repeat on each user-package section.
+(ia/load-dir-recursive "emacs-utils/themes")
+
+(use-package modus-operandi-tinted-dimmer-theme)
 
 
 (provide 'init-package-local-load)

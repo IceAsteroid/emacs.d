@@ -1,5 +1,4 @@
-;;;; init-common.el --- Common features used in the configuration -*- lexical-binding: t -*-
-
+;;; init-common.el --- Common features used in the configuration -*- lexical-binding: t -*-
 
 ;;; Commentary:
 ;; Purpose-specific snippets are in my emacs-utils repo.

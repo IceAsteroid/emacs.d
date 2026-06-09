@@ -1,4 +1,4 @@
-;;;; init-keybinds.el --- All custom keybinds -*- lexical-binding: t -*-
+;;; init-keybinds.el --- All custom keybinds -*- lexical-binding: t -*-
 
 ;;; Commentary:
 ;; 

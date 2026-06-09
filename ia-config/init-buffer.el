@@ -11,6 +11,7 @@
   ;; Enable outline minor mode in emacs-lisp-mode buffers.
   (add-hook 'emacs-lisp-mode-hook 'outline-minor-mode))
 
+(setq-default show-trailing-whitespace t)
 
 (provide 'init-buffer)
 
