@@ -8,11 +8,13 @@
 ;;; Code:
 
 (defun ia-advice/disable-all-themes (&rest _)
+  "Reset all faces of enabled themes before loading a new theme."
   (mapcar 'disable-theme custom-enabled-themes))
 (advice-add 'load-theme :before 'ia-advice/disable-all-themes)
 
 (ia/feat-chunk ia-setup/custom-theme-user-faces t
-  "Setting partially attributes of a face overrides all."
+  "Using `custom-theme-set-faces' for either 'user or a theme to set
+partially attributes of a face overrides all."
   (custom-theme-set-faces
    'user
    '(default ((t (:family "Sarasa Fixed K" :height 120))))
@@ -21,13 +23,28 @@
    '(fixed-pitch-serif ((t (:family "Sarasa Fixed K" :height 1.0 :weight bold))))))
 
 (ia/feat-chunk ia-setup/tango-theme t
- (with-eval-after-load 'tango-theme
-  (ia-fix/custom-theme-set-faces
-   'tango
-   '(diff-hl-change ((t (:background "#c0b200"))))    ; color from modus-operandi.
-   '(diff-hl-delete ((t (:background "#d84a4f"))))    ; color form modus-operandi.
-   '(diff-hl-insert ((t (:background "#6cc06c"))))))) ; color form modus-operandi.
+  (with-eval-after-load 'tango-theme
+    (ia-fix/custom-theme-set-faces
+     'tango
+     '(diff-hl-change ((t (:background "#c0b200"))))    ; color from modus-operandi.
+     '(diff-hl-delete ((t (:background "#d84a4f"))))    ; color form modus-operandi.
+     '(diff-hl-insert ((t (:background "#6cc06c"))))))) ; color form modus-operandi.
 
+(ia/feat-chunk ia-setup/load-faces-after-theme t
+  "Using the `ia/theme-set-faces' macro to load custom attributes will not
+override other attributes of a face defined by the current theme."
+  (with-eval-after-load 'ace-window
+    (ia/theme-set-faces
+      '(aw-leading-char-face
+       :height 400)))
+
+  (with-eval-after-load 'diff-hl-margin
+    (ia/theme-set-faces
+      ;; Consistent margin foreground, it by default follows the first
+      ;; char's face per line since foreground specs are unset.
+      '(diff-hl-margin-change :foreground (face-attribute 'default :foreground))
+      '(diff-hl-margin-delete :foreground (face-attribute 'default :foreground))
+      '(diff-hl-margin-insert :foreground (face-attribute 'default :foreground)))))
 
 (provide 'init-appearance)
 

@@ -9,8 +9,8 @@
 
 (ia/feat-chunk ia-setup/window-management-keymap t
   (with-eval-after-load 'window
-    (keymap-set global-map "M-o" 'other-window)
-    (keymap-set global-map "M-O" 'ia/other-window-mru)
+    ;; (keymap-set global-map "M-o" 'other-window)
+    (keymap-set global-map "M-o" 'ia/other-window-mru)
     (with-eval-after-load 'windmove)))
 
 (ia/feat-chunk ia-setup/buffer-management-keymap t
@@ -75,7 +75,7 @@
   (with-eval-after-load 'init-common
     (keymap-set global-map "C->" 'ia/mark-things-at-point)))
 
-(ia/feat-chunk ia-setup/outline-mode t
+(ia/feat-chunk ia-setup/outline-keymap t
   "Set up custom key bindings for outline minor mode using a new prefix."
   ;; Setting this variable doens’t work if `outline' has been loaded
   ;; so the following workaround is needed.
@@ -87,6 +87,12 @@
     (keymap-set outline-mode-prefix-map "<tab>" 'outline-cycle-buffer)
     (with-eval-after-load 'consult
       (keymap-set outline-mode-prefix-map "C-g" 'consult-outline))))
+
+(ia/feat-chunk ia-setup/dirvish-keymap t
+  (with-eval-after-load 'dirvish
+    (keymap-set global-map "C-x p t" 'dirvish-side)
+    (keymap-set dirvish-mode-map "<backtab>" 'dirvish-subtree-clear)
+    (keymap-set dirvish-mode-map "<tab>" 'dirvish-subtree-toggle)))
 
 
 (provide 'init-keybinds)

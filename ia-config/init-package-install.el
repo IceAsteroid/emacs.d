@@ -43,6 +43,7 @@
 
 ;;;; Git
 (ia/package-install 'magit)
+(ia/package-install 'forge)
 (ia/package-install 'diff-hl)
 
 ;;;; Org-mode
@@ -56,6 +57,11 @@
 
 ;;;; Documentation enhancement
 (ia/package-install 'helpful)
+
+;;;; Misc
+(ia/package-install 'dirvish)
+(ia/package-install 'ace-window)
+
 
 (provide 'init-package-install)
 ;;; init-package-install.el ends here
