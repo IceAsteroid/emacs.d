@@ -40,6 +40,7 @@
       kept-new-versions 10
       kept-old-versions 2   ;keep N versions of original file undeleted
       )
+(setq delete-by-moving-to-trash t)
 
 ;;;; Completion
 (setq completion-ignored-extensions nil) ;do not hide files in completion.

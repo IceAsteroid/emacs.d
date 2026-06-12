@@ -42,9 +42,12 @@ override other attributes of a face defined by the current theme."
     (ia/theme-set-faces
       ;; Consistent margin foreground, it by default follows the first
       ;; char's face per line since foreground specs are unset.
-      '(diff-hl-margin-change :foreground (face-attribute 'default :foreground))
-      '(diff-hl-margin-delete :foreground (face-attribute 'default :foreground))
-      '(diff-hl-margin-insert :foreground (face-attribute 'default :foreground)))))
+      '(diff-hl-margin-change
+        :foreground (face-attribute 'default :foreground) :weight 'bold)
+      '(diff-hl-margin-delete
+        :foreground (face-attribute 'default :foreground) :weight 'bold)
+      '(diff-hl-margin-insert
+        :foreground (face-attribute 'default :foreground) :weight 'bold))))
 
 (provide 'init-appearance)
 

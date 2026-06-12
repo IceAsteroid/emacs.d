@@ -22,6 +22,8 @@
   (with-eval-after-load 'dirvish
     (setq dirvish-subtree-state-style 'plus)
     (setq dirvish-side-width 30)
+    ;; set height nil to align to any theme's different height.
+    (setq dirvish-mode-line-height nil)
     (setq dirvish-attributes
           '(file-modes git-msg vc-state file-time file-size subtree-state))
     (setq dirvish-side-attributes

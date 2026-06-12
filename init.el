@@ -21,7 +21,7 @@
 (require 'init-package-local-load)
 (require 'init-performance-tweak)
 (require 'init-buffer)
-(require 'init-window)
+(require 'init-layouts)
 (require 'init-minibuffer)
 (require 'init-completion-at-point)
 (require 'init-contextual)

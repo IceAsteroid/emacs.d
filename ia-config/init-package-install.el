@@ -1,7 +1,7 @@
 ;;; init-package-install.el --- Install & Initialize packages -*- lexical-binding: t -*-
 
 ;;; Commentary:
-;; 
+;;
 
 (require 'package)
 
@@ -32,6 +32,10 @@
 (ia/package-install 'marginalia)
 (ia/package-install 'orderless)
 (ia/package-install 'consult)
+
+;;;; Window Management
+(ia/package-install 'popper)
+(ia/package-install 'shackle)
 
 ;;;; Programming
 (ia/package-install 'corfu)
