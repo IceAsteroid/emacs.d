@@ -65,10 +65,11 @@
   (add-hook 'org-mode-hook 'org-subentry-count-mode))
 
 ;;;; Modified themes
-;;load the theme directory once without repeat on each user-package section.
+;; load the theme directory once without repeat on each user-package section.
 (ia/load-dir-recursive "emacs-utils/themes")
 
 (use-package modus-operandi-tinted-dimmer-theme)
+;; (use-package popper-modified)
 
 
 (provide 'init-package-local-load)

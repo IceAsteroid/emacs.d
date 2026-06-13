@@ -59,8 +59,8 @@ Check ARG, FORCE and FOLLOW-SYMLINKS arguments in the docstring of `byte-recompi
     (unless tab-bar-mode
       (user-error "Tab-bar-mode is not active"))
     (let* ((candidates (my/tab-bar--indexed-candidates))
-           (current-idx (1+ (tab-bar--current-tab-index)))
-           (default-cand (car (rassq current-idx candidates)))
+           (orig-index (1+ (tab-bar--current-tab-index))) ; MODIFIED: Track starting index
+           (default-cand (car (rassq orig-index candidates)))
            (orig-tabs (copy-tree (frame-parameter nil 'tabs)))
            (orig-wc (current-window-configuration))
            (selected-key
@@ -76,8 +76,10 @@ Check ARG, FORCE and FOLLOW-SYMLINKS arguments in the docstring of `byte-recompi
                             (let ((target-idx (cdr (assoc cand candidates))))
                               (when target-idx
                                 (tab-bar-select-tab target-idx))))))
-              (set-frame-parameter nil 'tabs orig-tabs)
-              (set-window-configuration orig-wc))))
+              ;; MODIFIED: Precise, multi-layered state rollback
+              (tab-bar-select-tab orig-index)          ; Step 1: Sync active tab index back
+              (set-frame-parameter nil 'tabs orig-tabs) ; Step 2: Restore pristine ledger
+              (set-window-configuration orig-wc))))    ; Step 3: Restore pristine window layout
       ;; Execution Phase
       (when (and selected-key (not (string= selected-key "")))
         (let ((final-idx (cdr (assoc selected-key candidates))))
@@ -92,17 +94,17 @@ Check ARG, FORCE and FOLLOW-SYMLINKS arguments in the docstring of `byte-recompi
     "Collision-free override for the built-in `tab-bar-switch-to-tab` command."
     (interactive)
     (let* ((candidates (my/tab-bar--indexed-candidates))
-         (current-idx (1+ (tab-bar--current-tab-index)))
-         (default-cand (car (rassq current-idx candidates))))
-    (if (null candidates)
-        (user-error "No active tabs found")
-      (let* ((selected (completing-read "Switch to tab: "
-                                        candidates ;; Native alist optimization
-                                        nil t nil 'tab-bar-history default-cand))
-             (target-idx (cdr (assoc selected candidates))))
-        (if target-idx
-            (tab-bar-select-tab target-idx)
-          (user-error "Invalid tab selected"))))))
+           (current-idx (1+ (tab-bar--current-tab-index)))
+           (default-cand (car (rassq current-idx candidates))))
+      (if (null candidates)
+          (user-error "No active tabs found")
+        (let* ((selected (completing-read "Switch to tab: "
+                                          candidates ;; Native alist optimization
+                                          nil t nil 'tab-bar-history default-cand))
+               (target-idx (cdr (assoc selected candidates))))
+          (if target-idx
+              (tab-bar-select-tab target-idx)
+            (user-error "Invalid tab selected"))))))
 
   (defcustom ia/tab-switch-binding "C-x t RET"
     "Key string used to trigger `ia/consult-tab-switch` when the mode is active."
@@ -136,6 +138,35 @@ Check ARG, FORCE and FOLLOW-SYMLINKS arguments in the docstring of `byte-recompi
                          "Buffer has total %d lines (%d + %d)"
                          total)
                total before after))))
+
+;;;; Completion at point
+(ia/feat-chunk ia-deploy/corfu-sort-functions t
+  (defun ia--sort-length-alpha (candidates)
+    "Sort CANDIDATES by length, then alphabetically."
+    (sort candidates
+          (lambda (a b)
+            (let ((la (length a))
+                  (lb (length b)))
+              (if (= la lb)
+                  (string< a b)
+                (< la lb))))))
+
+  (defun ia-wrap-with-presort (capf sort-fn)
+    "Wrap CAPF so its underlying completion table returns candidates pre-sorted by SORT-FN."
+    (lambda ()
+      (when-let ((res (funcall capf)))
+        (let ((beg (nth 0 res))
+              (end (nth 1 res))
+              (table (nth 2 res))
+              (plist (nthcdr 3 res)))
+          (append
+           (list beg end
+                 (lambda (string pred action)
+                   (let ((result (complete-with-action action table string pred)))
+                     (if (and (eq action t) (listp result))
+                         (funcall sort-fn result)
+                       result))))
+           plist))))))
 
 ;;;; Org-mode
 

@@ -39,6 +39,7 @@
 
 ;;;; Programming
 (ia/package-install 'corfu)
+(ia/package-install 'cape)
 (ia/package-install 'kind-icon)
 
 ;;;; Contextual hinting
@@ -58,6 +59,7 @@
 
 ;;;; Linguistics & Translation
 (ia/package-install 'gt)
+(ia/package-install 'jinx)
 
 ;;;; Documentation enhancement
 (ia/package-install 'helpful)

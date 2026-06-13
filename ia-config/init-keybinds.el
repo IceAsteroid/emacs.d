@@ -11,7 +11,17 @@
   (with-eval-after-load 'window
     ;; (keymap-set global-map "M-o" 'other-window)
     (keymap-set global-map "M-o" 'ia/other-window-mru)
-    (with-eval-after-load 'windmove)))
+    (with-eval-after-load 'windmove))
+
+  (ia/feat-chunk ia-setup/popper-keymap t
+    (with-eval-after-load 'popper
+      (defvar-keymap ctl-z-popper-map
+        :doc "Keymap for `popper-mode’."
+        :repeat t
+        "C-z" 'popper-toggle
+        "C-<tab>" 'popper-cycle
+        "<tab>" 'popper-toggle-type)
+      (keymap-set global-map "C-z" ctl-z-popper-map))))
 
 (ia/feat-chunk ia-setup/buffer-management-keymap t
   (keymap-unset global-map "C-x C-b" 'list-buffers)

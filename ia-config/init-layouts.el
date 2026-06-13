@@ -14,7 +14,49 @@
 
   ;; Do not make new windows to display buffers. Buffers that need to
   ;; pop up should be managed by `popper-mode'.
-  (setq pop-up-windows nil))
+  (setq pop-up-windows nil)
+
+  (ia/feat-chunk ia-setup/popper t
+    (setq popper-display-control t)
+    (setq popper-group-function 'popper-group-by-project)
+    (setq popper-reference-buffers
+          `("[Oo]utput\\*"
+            "\\*Async Shell Command\\*"
+            "\\*Backtrace\\*"
+            "\\*Warnings\\*"
+            "\\*eglot doc\\*"
+            "\\*EGLOT.*events\\*"
+            "\\*Async-native-compile-log\\*"
+            "\\*ielm\\*"
+            "\\*Ement members: Haskell\\*"
+            "\\*Anaconda\\*"
+            "\\*.+shell\\*"
+            "\\*ghcid\\*"
+            "\\*gt-result\\*"
+            "\\*Elfeed-Tube Channels\\*"
+            "\\*Diagram-collision-preview\\*"
+            "\\*simple counter\\*"
+            message-mode
+            messages-buffer-mode
+            occur-mode
+            pdf-occur-buffer-mode
+            Buffer-menu-mode
+            help-mode
+            ;; special-mode
+            inferior-python-mode
+            inferior-scheme-mode
+            haskell-interactive-mode
+            hs-lint-mode
+            xref--xref-buffer-mode
+            emacs-lisp-compilation-mode
+            debugger-mode
+            compilation-mode
+            embark-collect-mode))
+    (popper-mode +1)
+    (popper-echo-mode +1)
+    ;; defined in my `emacs-utils` repo.
+    ;; (ia/popper-modified-mode +1)
+    ))
 
 (ia/feat-chunk ia-setup/tab-bar-management t
   (with-eval-after-load 'tab-bar

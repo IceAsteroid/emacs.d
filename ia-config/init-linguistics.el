@@ -5,6 +5,14 @@
 
 (require 'init-common)
 
+(ia/feat-chunk ia-setup/spell-check t
+  (with-eval-after-load 'ispell
+    (setq ispell-program-name "hunspell"))
+  (with-eval-after-load 'jinx
+    (setq jinx-languages "en_US en_GB en_AU")
+    (global-jinx-mode +1))
+)
+
 (ia/feat-chunk ia-setup/go-translate t
   (with-eval-after-load 'gt
     ;; go-translate can have presets, the feature needs to configure to add
