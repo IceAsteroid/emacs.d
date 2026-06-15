@@ -12,13 +12,35 @@
 
 ;;; Code:
 
+;;;; Load emacs-utils repository
+(add-to-list 'load-path "~/Repos_Mine/Online/Emacs_Packages/emacs-utils" t)
+(setq ia/emacs-utils-sub-dirs '("core" "layout" "appearance" "buffer"
+                                "completion" "org" "workaround"))
+
+(require 'emacs-utils)              ; entry point that loads sub dirs.
+(require 'ia-fix-pgtk)
+(require 'ia-fix-theme)
+(require 'ia-modus-operandi-tinted-dimmer-theme)
+(require 'ia-face-utility)
+(require 'ia-persist-set-faces)
+(require 'ia-consult-tab-bar)
+(require 'ia-popper-modified)
+(require 'ia-window-utility)
+(require 'ia-window-prefix-pivot)
+(require 'ia-buffer-utility)
+(require 'ia-cape-capf-sort-utility)
+(require 'ia-org-item-toggle)
+
+
+;;;; Load local configuration
 (add-to-list 'load-path "~/.emacs.d/ia-config/" t)
-(require 'init-common)
-(require 'init-workaround)
-(require 'init-basic)
-(require 'init-appearance)
+
+;; (require 'init-common)
+;; (require 'init-workaround)
 (require 'init-package-install)
 (require 'init-package-local-load)
+(require 'init-basic)
+(require 'init-appearance)
 (require 'init-performance-tweak)
 (require 'init-buffer)
 (require 'init-layouts)
@@ -30,6 +52,7 @@
 (require 'init-org)
 (require 'init-linguistics)
 (require 'init-keybinds)
+
 
 ;; Load configs not tracked by version control.
 (add-to-list 'load-path "~/.emacs.d/ia-config-novcs" t)

@@ -3,6 +3,7 @@
 ;;; Commentary:
 ;;
 
+;;;; Theme
 ;; `custom-theme-set-faces' does not work for a theme except 'user
 ;; Emacs Bug #68880 for pgtk build, as of <2026-06-10 Wed>.
 (ia/feat-chunk ia-fix/custom-theme-set-faces t
@@ -34,6 +35,13 @@ Stores the settings and forces a PGTK cache refresh to prevent staleness."
           (face-spec-recalc (car entry) (selected-frame))))))
   ;; Attach the hook permanently
   (add-hook 'enable-theme-functions 'ia-hook/apply-generic-theme-overrides))
+
+(ia/feat-chunk ia-fix/input-or-childframe-lag t
+  ;; corfu, lsp-bridge child-frame popup abortion by space or other no
+  ;; match insertion have lag, if `pgtk-wait-for-event-timeout' is the
+  ;; default 0.1 value.
+  (when (string-search "PGTK" system-configuration-features)
+    (setq pgtk-wait-for-event-timeout 0.005)))
 
 
 (provide 'init-workaround)

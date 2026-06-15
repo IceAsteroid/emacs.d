@@ -9,7 +9,7 @@
   (with-eval-after-load 'ispell
     (setq ispell-program-name "hunspell"))
   (with-eval-after-load 'jinx
-    (setq jinx-languages "en_US en_GB en_AU")
+    (setq jinx-languages "en_US")
     (global-jinx-mode +1))
 )
 

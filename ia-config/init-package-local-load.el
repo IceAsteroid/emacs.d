@@ -41,7 +41,7 @@
   :config
   (setq org-subentry-count-after-change t)
   (defun my/setup-buffer-face-in-org-subentry ()
-    (if (or ia/variable-pitch-mode
+    (if (or (ia/variable-pitch-p)
             (bound-and-true-p mixed-pitch-mode)
             (bound-and-true-p my-mixed-pitch-mode))
         (setq-local org-subentry-count-format " [%s] ")
@@ -63,13 +63,6 @@
       (remove-hook 'my-mixed-pitch-mode-hook 'my/setup-buffer-face-in-org-subentry t)))
   (add-hook 'org-subentry-count-mode-hook 'my/setup-in-org-subentry-count-mode)
   (add-hook 'org-mode-hook 'org-subentry-count-mode))
-
-;;;; Modified themes
-;; load the theme directory once without repeat on each user-package section.
-(ia/load-dir-recursive "emacs-utils/themes")
-
-(use-package modus-operandi-tinted-dimmer-theme)
-;; (use-package popper-modified)
 
 
 (provide 'init-package-local-load)

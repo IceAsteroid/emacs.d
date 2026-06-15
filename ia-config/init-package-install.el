@@ -4,6 +4,7 @@
 ;;
 
 (require 'package)
+(require 'ia-core-utility)
 
 ;;; Code:
 
@@ -11,14 +12,6 @@
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
 (package-initialize t)
 
-(defun ia/package-install (pkg)
-  "Install PKG if not installed, and load the package immediately."
-  (unless (package-installed-p pkg)
-    ;; Refresh archives if empty for fresh install, to prevent package not found.
-    (unless package-archive-contents
-      (package-refresh-contents))
-    (package-install pkg))
-  (require pkg))
 
 ;;;; Performance
 (ia/package-install 'gcmh)

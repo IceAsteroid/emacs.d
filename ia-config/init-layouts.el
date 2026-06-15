@@ -55,15 +55,15 @@
     (popper-mode +1)
     (popper-echo-mode +1)
     ;; defined in my `emacs-utils` repo.
-    ;; (ia/popper-modified-mode +1)
-    ))
+    (ia/popper-modified-mode +1)))
 
 (ia/feat-chunk ia-setup/tab-bar-management t
   (with-eval-after-load 'tab-bar
     (setq tab-bar-auto-width-max '((120) 20))
     (setq tab-bar-new-tab-choice 'scratch-buffer)
     (tab-bar-mode +1)
-    (ia/tab-bar-setup-mode +1)))
+    (with-eval-after-load 'ia-consult-tab-bar
+      (ia/tab-bar-setup-mode +1))))
 
 (ia/feat-chunk ia-setup/ace-window t
   (with-eval-after-load 'ace-window
