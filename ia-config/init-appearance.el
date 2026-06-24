@@ -3,7 +3,7 @@
 ;;; Commentary:
 ;;
 
-(require 'init-common)
+(require 'ia-core-utility)
 
 ;;; Code:
 
@@ -18,7 +18,7 @@ partially attributes of a face overrides all."
   (custom-theme-set-faces
    'user
    '(default ((t (:family "Sarasa Fixed K" :height 120))))
-   '(variable-pitch ((t (:family "Noto Sans SemiCondensed" :height 1.0 :weight normal))))
+   '(variable-pitch ((t (:family "Sarasa Fixed K" :height 1.0 :weight normal))))
    '(fixed-pitch ((t (:family "Sarasa Fixed K" :height 0.82))))
    '(fixed-pitch-serif ((t (:family "Sarasa Fixed K" :height 1.0 :weight bold))))))
 
@@ -33,21 +33,34 @@ partially attributes of a face overrides all."
 (ia/feat-chunk ia-setup/load-faces-after-theme t
   "Using the `ia/theme-set-faces' macro to load custom attributes will not
 override other attributes of a face defined by the current theme."
-  (with-eval-after-load 'ace-window
-    (ia/theme-set-faces
-      '(aw-leading-char-face
-       :height 400)))
 
-  (with-eval-after-load 'diff-hl-margin
-    (ia/theme-set-faces
-      ;; Consistent margin foreground, it by default follows the first
-      ;; char's face per line since foreground specs are unset.
-      '(diff-hl-margin-change
-        :foreground (face-attribute 'default :foreground) :weight 'bold)
-      '(diff-hl-margin-delete
-        :foreground (face-attribute 'default :foreground) :weight 'bold)
-      '(diff-hl-margin-insert
-        :foreground (face-attribute 'default :foreground) :weight 'bold))))
+  (ia/feat-chunk ia-setup/ace-window-faces t
+    (with-eval-after-load 'ace-window
+      (ia/theme-set-faces
+        '(aw-leading-char-face
+          :height 400))))
+
+  (ia/feat-chunk ia-setup/diff-hl-margin-faces t
+    (with-eval-after-load 'diff-hl-margin
+      (ia/theme-set-faces
+        ;; Consistent margin foreground, it by default follows the first
+        ;; char's face per line since foreground specs are unset.
+        '(diff-hl-margin-change
+          :foreground (face-attribute 'default :foreground) :weight 'bold)
+        '(diff-hl-margin-delete
+          :foreground (face-attribute 'default :foreground) :weight 'bold)
+        '(diff-hl-margin-insert
+          :foreground (face-attribute 'default :foreground) :weight 'bold))))
+
+  (ia/feat-chunk ia-setup/shr-faces t
+    (with-eval-after-load 'shr
+      (ia/theme-set-faces
+        ;; elfeed-show-mode uses this face to display text.  Since the
+        ;; nice fixed font "Sarasa Fixed K" is also set as
+        ;; `variable-pitch's font we don't want its font bigger as the
+        ;; face inherits from `variable-pitch-text'.
+        '(shr-text :height 'reset))))
+  )
 
 (provide 'init-appearance)
 

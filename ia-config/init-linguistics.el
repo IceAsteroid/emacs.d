@@ -3,15 +3,16 @@
 ;;; Commentary:
 ;; 
 
-(require 'init-common)
+(require 'ia-core-utility)
 
 (ia/feat-chunk ia-setup/spell-check t
   (with-eval-after-load 'ispell
     (setq ispell-program-name "hunspell"))
-  (with-eval-after-load 'jinx
-    (setq jinx-languages "en_US")
-    (global-jinx-mode +1))
-)
+
+  (ia/feat-chunk ia-setup/jinx t
+    (with-eval-after-load 'jinx
+      (setq jinx-languages "en_US")
+      (global-jinx-mode +1))))
 
 (ia/feat-chunk ia-setup/go-translate t
   (with-eval-after-load 'gt

@@ -1,9 +1,11 @@
 ;;; init-basic.el --- Basic configuration for built-in features.  -*- lexical-binding: t; -*-
 
 ;;; Commentary:
-;; 
+;; Setting basic features that do not require third-party packages,
+;; and before requiring `init-package-install'.
+;; More complicated settings should be in specific `init-' files.
 
-(require 'init-common)
+(require 'ia-core-utility)
 
 ;;; Code:
 
@@ -24,6 +26,9 @@
 (setq blink-cursor-blinks -1)
 (setq use-file-dialog nil)
 
+;;;; Mode Line
+(column-number-mode +1)
+
 ;;;; History
 (savehist-mode +1)
 
@@ -42,8 +47,16 @@
       )
 (setq delete-by-moving-to-trash t)
 
+;;;; In-buffer operation & Edition
+;; enable camelCase sensitivity when killing a word.
+(subword-mode +1)
+(setopt hscroll-step 1)
+(setopt hscroll-margin 10)
+
 ;;;; Completion
 (setq completion-ignored-extensions nil) ;do not hide files in completion.
+;; like marginalia-mode but only for some minibuffers
+(setq completions-detailed t)
 
 ;;;; Keybindings
 (keymap-unset global-map "C-x C-z" 'suspend-frame)
