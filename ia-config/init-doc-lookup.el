@@ -15,8 +15,14 @@
     (setq pdf-view-use-imagemagick t)
     (setq pdf-cache-image-limit (* 5 1024 1024))
     (defun ia-hook/pdf-view-mode-misc ()
+      ;; this only refresh background face for theme switches on the
+      ;; mode's first call. `ia/pdf-tools-modified-mode' fixes the
+      ;; anytime switches after first call.
       (pdf-view-themed-minor-mode 1)
-      (pdf-view-auto-slice-minor-mode 1) ;Causes scaling to not work in new releases, the issue has been posted in the official repo by me.
+      ;; causes scaling to not work in new releases, the issue has
+      ;; been posted in the official repo by me. Currently working
+      ;; fine on a patched pdf-tools version.
+      (pdf-view-auto-slice-minor-mode 1)
       (pdf-view-fit-page-to-window)
       (pdf-outline-imenu-enable))
     (add-hook 'pdf-view-mode-hook 'ia-hook/pdf-view-mode-misc)

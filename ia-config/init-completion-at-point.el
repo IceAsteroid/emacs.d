@@ -33,7 +33,7 @@
                       'cape-file
                       'cape-dabbrev))))
       (add-hook 'emacs-lisp-mode-hook #'ia-hook/emacs-lisp-mode-capf)
-      
+
       (defun ia-hook/sh-mode-capf ()
         (setq-local completion-at-point-functions
                     (list
@@ -49,7 +49,7 @@
           ;; completion functions.
           ;;
           ;; Try to generalize for different buffer modes and lsp
-          ;; servers.
+          ;; servers under managed by eglot.
           (defun ia-hook/eglot-mode-capf ()
             (setq-local completion-at-point-functions
                         (list
@@ -58,6 +58,41 @@
                           'cape-file
                           'cape-dabbrev))))
           (add-hook 'eglot-managed-mode-hook #'ia-hook/eglot-mode-capf)))
+
+      (ia/feat-chunk org-mode-capf t
+        (with-eval-after-load 'org
+           (defun ia-hook/org-mode-capf ()
+             (setq-local completion-at-point-functions
+                         (list
+                          (apply #'cape-capf-choose
+                                 `(cape-file
+                                   ;; the evaluated result of a splice
+                                   ;; list must be a sequence to `,@',
+                                   ;; otherwise, it outputs
+                                   ;; type-mismatch error.
+                                   ;;
+                                   ;; Use splicing as a trick to
+                                   ;; eliminate the result if `and'
+                                   ;; returns nil. Since an nil in
+                                   ;; `completion-at-point-functions'
+                                   ;; is an invalid usage.
+                                   ,@(and (fboundp 'corg-completion-at-point)
+                                          (list 'corg-completion-at-point))
+                                   cape-dabbrev))
+                          'pcomplete-completions-at-point
+                          'ispell-completion-at-point)))
+           (add-hook 'org-mode-hook 'ia-hook/org-mode-capf)))
+
+      (ia/feat-chunk plantuml-mode-capf t
+        (with-eval-after-load 'plantuml-mode
+          ;; Default `plantuml-complete-symbol' in
+          ;; `completion-at-point-functions' is incompatible for
+          ;; `corfu-mode', but `plantuml-completion-at-point-function'
+          ;; works.
+          (defun ia-hook/plantuml-mode-capf ()
+            (setq-local completion-at-point-functions
+                        (list 'plantuml-completion-at-point-function)))
+          (add-hook 'plantuml-mode-hook 'ia-hook/plantuml-mode-capf)))
       )))
 
 (ia/feat-chunk ia-setup/kind-icon t

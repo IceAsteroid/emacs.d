@@ -1,4 +1,4 @@
-;;; init-buffer.el --- Buffer & Editing Configuration
+;;; init-buffer.el --- Buffer & Editing Configuration  -*- lexical-binding: t; -*-
 
 ;;; Commentary:
 ;;
@@ -47,6 +47,14 @@
       ;; Run `treesit-auto-install-all' in case you do not want to
       ;; install every time when a *-ts-mode is missing for a file.
       (setopt treesit-auto-install 'prompt)
+      ;; markdown-ts-mdoe is new in 31 but experimental that needs
+      ;; manually be loaded. in 32, the mode is no longer experimental
+      ;; and is autoloaded.
+      (ignore-error file-missing
+        (when (= emacs-major-version 31)
+               (load-library "markdown-ts-mode")))
+      (with-eval-after-load 'markdown-ts-mode
+        (add-to-list 'treesit-major-mode-remap-alist '(markdown-mode . markdown-ts-mode)))
       (treesit-auto-add-to-auto-mode-alist 'all)
       (global-treesit-auto-mode +1)))
   (ia/feat-chunk ia-setup/bash-ts-mode t

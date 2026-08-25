@@ -37,7 +37,8 @@
     (setopt tedit-relock-inhibit-from-deep-minibuffer nil)
     (setopt tedit-toggle-inhibit-if-file-initially-hard-locked t)
     (setopt tedit-soft-lock-toggle-method 'soft-lock)
-    (setopt tedit-relock-inhibit-from-buffer-regexps '("\\*Org Select\\*"))
+    (setopt tedit-relock-inhibit-from-buffer-regexps '("\\*Org Select\\*"
+                                                       " \\*vundo tree\\*"))
     (setopt tedit-hard-lock-derived-mode-list '(prog-mode text-mode conf-mode))
     (setopt tedit-inhibit-commands '(project-query-replace-regexp))
     (setopt tedit-soft-lock-buffer-regexps '("\\*Async Shell Command\\*"
@@ -59,7 +60,8 @@
   (setopt tedit-relock-inhibit-from-deep-minibuffer nil)
   (setopt tedit-toggle-inhibit-if-file-initially-hard-locked t)
   (setopt tedit-soft-lock-toggle-method 'soft-lock)
-  (setopt tedit-relock-inhibit-from-buffer-regexps '("\\*Org Select\\*"))
+  (setopt tedit-relock-inhibit-from-buffer-regexps '("\\*Org Select\\*"
+                                                     " \\*vundo tree\\*"))
   (setopt tedit-hard-lock-derived-mode-list '(prog-mode text-mode conf-mode))
   (setopt tedit-inhibit-commands '(project-query-replace-regexp))
   (setopt tedit-soft-lock-buffer-regexps '("\\*Async Shell Command\\*"
@@ -74,6 +76,15 @@
   (setopt tedit-apply-locks-on-mode-change t)
   (tedit-mode +1))
 
+(ia/feat-chunk ia-setup/column-popup t
+  (load-file (file-name-concat ia/local-packages-dir "column-popup/column-popup.el"))
+  (add-to-list 'column-popup-buffers "^\\*gt-result\\*$")
+  (setopt column-popup-global-buffers
+          '("^\\*Messages\\*$" "^\\*Help\\*$" "^\\*Warnings\\*$"
+            "^\\*Completions\\*$" "^\\*Backtrace\\*$"))
+  ;; (setopt column-popup-group-function 'column-popup-group-by-project)
+  (setopt column-popup-group-function nil)
+  (column-popup-mode +1))
 
 (ia/feat-chunk ia-setup/denote-modified t
   ;; `denote-modified' requires a refactor and move regular settings out of it to `init-org.el'.

@@ -19,9 +19,9 @@
   ;; pop up should be managed by `popper-mode'.
   (setq pop-up-windows nil)
 
-  (ia/feat-chunk ia-setup/popper t
+  (ia/feat-chunk ia-setup/popper nil
     (setq popper-display-control t)
-    (setq popper-group-function 'popper-group-by-project)
+    (setq popper-group-function 'popper-group-by-directory)
     (setq popper-reference-buffers
           `("[Oo]utput\\*"
             "\\*Async Shell Command\\*"
@@ -59,7 +59,8 @@
     (popper-mode +1)
     (popper-echo-mode +1)
     ;; defined in my `emacs-utils' repo.
-    (ia/popper-modified-mode +1))
+    (with-eval-after-load 'ia-popper-modified
+        (ia/popper-modified-mode +1)))
 
   (with-eval-after-load 'ia-window-prefix-pivot
     ;; fix window prefix command to open new buffer in the mru window
@@ -69,6 +70,20 @@
 (ia/feat-chunk ia-setup/frame-management t
   (ia/feat-chunk ia-setup/desktop-save t
     (setopt desktop-path '("~/.emacs.d/desktop/"))
+    ;; Do not restore theme faces of frame parameters from previous
+    ;; session. So if some faces of the theme enabled by the config
+    ;; differed from the theme used in the previous session will get
+    ;; overridden.
+    (with-eval-after-load 'frameset
+      (dolist (param '(background-color
+                       foreground-color
+                       cursor-color
+                       mouse-color
+                       border-color
+                       scroll-bar-foreground
+                       scroll-bar-background
+                       background-mode))
+        (push (cons param :never) frameset-filter-alist)))
     (desktop-save-mode +1))
 
   (ia/feat-chunk ia-setup/tab-bar t

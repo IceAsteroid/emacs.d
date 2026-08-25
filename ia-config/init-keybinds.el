@@ -22,7 +22,7 @@
     (with-eval-after-load 'ia-window-prefix-pivot
       (keymap-set global-map "<remap> <other-window-prefix>" #'ace-other-window-prefix)))
 
-  (ia/feat-chunk ia-setup/popper-keymap t
+  (ia/feat-chunk ia-setup/popper-keymap nil
     (with-eval-after-load 'popper
       (defvar-keymap ctl-z-popper-map
         :doc "Keymap for `popper-mode’."
@@ -31,6 +31,16 @@
         "C-<tab>" 'popper-cycle
         "<tab>" 'popper-toggle-type)
       (keymap-set global-map "C-z" ctl-z-popper-map)))
+
+  (ia/feat-chunk ia-setup/column-popup-keymap t
+    (with-eval-after-load 'column-popup
+      (defvar-keymap ctl-z-column-popup-map
+        :doc "Keymap for `column-popup-mode’."
+        :repeat t
+        "C-z" 'column-popup-toggle
+        "C-<tab>" 'column-popup-cycle
+        "<tab>" 'column-popup-toggle-type)
+      (keymap-set global-map "C-z" ctl-z-column-popup-map)))
 
   (ia/feat-chunk ia-setup/tab-line-keymap t
     (with-eval-after-load 'tab-line
