@@ -7,6 +7,13 @@
 
 ;;; Code:
 
+;; Enable the Bug#68880 workaround for `custom-theme-set-faces' on the
+;; affected Emacs versions (28 < version < 31).  If the current Emacs
+;; version is not one where the bug exists (e.g. >= 31.1, where the bug
+;; is fixed upstream), the mode does not take effect.
+(with-eval-after-load 'ia-fix-theme-custom-theme-set-faces-68880
+  (ia-fix/theme-custom-theme-set-faces-68880-mode 1))
+
 (defun ia-advice/disable-all-themes (&rest _)
   "Reset all faces of enabled themes before loading a new theme."
   (mapcar 'disable-theme custom-enabled-themes))
@@ -19,12 +26,12 @@ partially attributes of a face overrides all."
    'user
    '(default ((t (:family "Sarasa Fixed K" :height 120))))
    '(variable-pitch ((t (:family "Sarasa Fixed K" :height 1.0 :weight normal))))
-   '(fixed-pitch ((t (:family "Sarasa Fixed K" :height 0.82))))
+   '(fixed-pitch ((t (:family "Sarasa Fixed K" :height 1.0))))
    '(fixed-pitch-serif ((t (:family "Sarasa Fixed K" :height 1.0 :weight bold))))))
 
 (ia/feat-chunk ia-setup/tango-theme t
   (with-eval-after-load 'tango-theme
-    (ia-fix/custom-theme-set-faces
+    (custom-theme-set-faces
      'tango
      '(diff-hl-change ((t (:background "#c0b200"))))    ; color from modus-operandi.
      '(diff-hl-delete ((t (:background "#d84a4f"))))    ; color form modus-operandi.
@@ -60,6 +67,18 @@ override other attributes of a face defined by the current theme."
         ;; `variable-pitch's font we don't want its font bigger as the
         ;; face inherits from `variable-pitch-text'.
         '(shr-text :height 'reset))))
+
+  (ia/feat-chunk ia-setup/org-faces t
+    (with-eval-after-load 'org-indent
+      (ia/theme-set-faces
+        ;; some themes set `org-indent' to inherit `fixed-pitch', if
+        ;; fixed-pitch is set to a different height then `default'
+        ;; where the normal text's face is, the width will differ.
+        ;; One premise to achieve same width: the default and
+        ;; fixed-pitch must be the same monospace font.  Setting a
+        ;; decimal height only multiply it with the inherited face, we
+        ;; need 'reset here to set back to default.
+        '(org-indent :height 'reset))))
   )
 
 (provide 'init-appearance)

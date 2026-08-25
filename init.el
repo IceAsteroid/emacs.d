@@ -19,16 +19,19 @@
                                 "info-inbox" "doc-lookup"))
 ;; entry point that loads sub dirs.
 (require 'emacs-utils)
-(ia-load-sub-dirs)
+(ia/emacs-utils-load-sub-dirs)
 
 ;; Load local configurations that are in .emacs.d
 (add-to-list 'load-path "~/.emacs.d/ia-config/" t)
 
 
 (with-eval-after-load 'init-package-install
-  (require 'ia-fix-pgtk)
-  (require 'ia-fix-theme)
-  (require 'ia-fix-man)
+  (require 'ia-fix-pgtk-childframe-lag-58556)
+  (require 'ia-fix-theme-custom-theme-set-faces-68880)
+  (require 'ia-fix-man-osc8-hyperlink-81240)
+  (require 'ia-fix-gt-treesit-hang-82)
+  (require 'ia-fix-window-state-put-73627)
+  (require 'ia-fix-org-block-regexp-overflow)
   (require 'ia-modus-operandi-tinted-dimmer-theme)
   (require 'ia-face-utility)
   (require 'ia-persist-set-faces)
@@ -44,6 +47,7 @@
   (require 'ia-cape-capf-sort-utility)
   (require 'ia-org-utility)
   (require 'ia-org-item-toggle)
+  (require 'ia-org-indent-modified)
   (require 'ia-consult-org-preselect-nearest)
   (require 'ia-elfeed-modified)
   (require 'ia-help-modified)

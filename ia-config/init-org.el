@@ -64,16 +64,39 @@ first-level parent heading, but keep their subheadings and contents folded."
     (ia/feat-chunk ia-setup/org-agenda t
       ;; skip unavailable dirs or files instead of asking to remove.
       (setopt org-agenda-skip-unavailable-files t))
+
+    (ia/feat-chunk ia-setup/org-indent t
+      (setopt org-startup-indented t)
+      (with-eval-after-load 'org-superstar
+        (defun ia-hook/org-indent-mode-superstar ()
+          (if org-indent-mode
+              (setq-local org-superstar-remove-leading-stars nil)
+            ;; restore back to the default global value of the variable.
+            (setq-local org-superstar-remove-leading-stars (default-value 'org-superstar-remove-leading-stars)))
+          (org-superstar-restart))
+        (add-hook 'org-indent-mode-hook 'ia-hook/org-indent-mode-superstar))
+      (with-eval-after-load 'ia-org-indent-modified
+          (ia/org-indent-modified-mode +1)))
     ))
 
 (ia/feat-chunk ia-setup/org-superstar t
   (with-eval-after-load 'org-superstar
-    (setq org-superstar-remove-leading-stars t)
+    (setopt org-superstar-remove-leading-stars t)
     ;; Full-width A B C D..
-    (setq org-superstar-headline-bullets-list
+    (setopt org-superstar-headline-bullets-list
           '(65 66 67 68 69 70 71 72 73 74 75 76 77 78 79 80 81 82 83 84))
-    (setq org-superstar-item-bullet-alist '((?* . ?◩) (?+ . ?■) (?- . ?◧)))
+    (setopt org-superstar-item-bullet-alist '((?* . ?◩) (?+ . ?■) (?- . ?◧)))
     (add-hook 'org-mode-hook 'org-superstar-mode)))
+
+(ia/feat-chunk ia-setup/org-phscroll t
+  (setq org-startup-truncated nil)
+  (with-eval-after-load 'org
+    (with-eval-after-load 'phscroll
+      (require 'org-phscroll))))
+
+(ia/feat-chunk ia-setup/corg t
+  (with-eval-after-load 'corg
+    (add-hook 'org-mode-hook 'corg-setup)))
 
 (provide 'init-org)
 ;;; init-org.el ends here

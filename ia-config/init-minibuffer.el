@@ -1,7 +1,7 @@
-;;; init-minibuffer.el --- Minibuffer Configuration
+;;; init-minibuffer.el --- Minibuffer Configuration  -*- lexical-binding: t; -*-
 
 ;;; Commentary:
-;; 
+;;
 
 ;;; Code:
 

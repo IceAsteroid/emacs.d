@@ -1,4 +1,4 @@
-;;; init-buffer.el --- Buffer & Editing Configuration
+;;; init-buffer.el --- Buffer & Editing Configuration  -*- lexical-binding: t; -*-
 
 ;;; Commentary:
 ;;

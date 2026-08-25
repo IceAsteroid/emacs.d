@@ -37,7 +37,8 @@
     (setopt tedit-relock-inhibit-from-deep-minibuffer nil)
     (setopt tedit-toggle-inhibit-if-file-initially-hard-locked t)
     (setopt tedit-soft-lock-toggle-method 'soft-lock)
-    (setopt tedit-relock-inhibit-from-buffer-regexps '("\\*Org Select\\*"))
+    (setopt tedit-relock-inhibit-from-buffer-regexps '("\\*Org Select\\*"
+                                                       " \\*vundo tree\\*"))
     (setopt tedit-hard-lock-derived-mode-list '(prog-mode text-mode conf-mode))
     (setopt tedit-inhibit-commands '(project-query-replace-regexp))
     (setopt tedit-soft-lock-buffer-regexps '("\\*Async Shell Command\\*"
@@ -59,7 +60,8 @@
   (setopt tedit-relock-inhibit-from-deep-minibuffer nil)
   (setopt tedit-toggle-inhibit-if-file-initially-hard-locked t)
   (setopt tedit-soft-lock-toggle-method 'soft-lock)
-  (setopt tedit-relock-inhibit-from-buffer-regexps '("\\*Org Select\\*"))
+  (setopt tedit-relock-inhibit-from-buffer-regexps '("\\*Org Select\\*"
+                                                     " \\*vundo tree\\*"))
   (setopt tedit-hard-lock-derived-mode-list '(prog-mode text-mode conf-mode))
   (setopt tedit-inhibit-commands '(project-query-replace-regexp))
   (setopt tedit-soft-lock-buffer-regexps '("\\*Async Shell Command\\*"

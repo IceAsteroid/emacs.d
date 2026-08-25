@@ -18,6 +18,7 @@
   (setq-local ia/local-packages-dir "~/Repos_Third_Party/Emacs_Packages")
   (ia/package-vc-install-local "pdf-tools")
   (ia/package-vc-install-local "combobulate")
+  (ia/package-vc-install-local "phscroll")
   (with-eval-after-load 'zig-mode
     (ia/package-vc-install-local "ob-zig")))
 
@@ -64,6 +65,10 @@
 (ia/package-install 'denote-silo)
 (ia/package-install 'consult-notes)
 (ia/package-install 'org-superstar)
+(ia/package-install 'plantuml-mode)
+(ia/package-install 'corg)
+(ia/package-install 'd2-mode)
+;; (ia/package-install 'ob-d2)
 
 ;;;; Linguistics & Translation
 (ia/package-install 'gt)

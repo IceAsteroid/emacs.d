@@ -69,6 +69,20 @@
 (ia/feat-chunk ia-setup/frame-management t
   (ia/feat-chunk ia-setup/desktop-save t
     (setopt desktop-path '("~/.emacs.d/desktop/"))
+    ;; Do not restore theme faces of frame parameters from previous
+    ;; session. So if some faces of the theme enabled by the config
+    ;; differed from the theme used in the previous session will get
+    ;; overridden.
+    (with-eval-after-load 'frameset
+      (dolist (param '(background-color
+                       foreground-color
+                       cursor-color
+                       mouse-color
+                       border-color
+                       scroll-bar-foreground
+                       scroll-bar-background
+                       background-mode))
+        (push (cons param :never) frameset-filter-alist)))
     (desktop-save-mode +1))
 
   (ia/feat-chunk ia-setup/tab-bar t
